@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -24,6 +26,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string')]
     private $password;
+
+    #[ORM\OneToMany(mappedBy: 'Repartidor', targetEntity: Solicitud::class)]
+    private $solicitudes;
+
+    public function __construct()
+    {
+        $this->solicitudes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -93,5 +103,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Solicitud>
+     */
+    public function getSolicitudes(): Collection
+    {
+        return $this->solicitudes;
+    }
+
+    public function addSolicitude(Solicitud $solicitude): self
+    {
+        if (!$this->solicitudes->contains($solicitude)) {
+            $this->solicitudes[] = $solicitude;
+            $solicitude->setRepartidor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitude(Solicitud $solicitude): self
+    {
+        if ($this->solicitudes->removeElement($solicitude)) {
+            // set the owning side to null (unless already changed)
+            if ($solicitude->getRepartidor() === $this) {
+                $solicitude->setRepartidor(null);
+            }
+        }
+
+        return $this;
     }
 }

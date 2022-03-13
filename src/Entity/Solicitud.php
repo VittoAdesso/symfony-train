@@ -22,6 +22,10 @@ class Solicitud
     #[ORM\Column(type: 'integer')]
     private $numPaquetes;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'solicitudes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $Repartidor;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +63,18 @@ class Solicitud
     public function setNumPaquetes(int $numPaquetes): self
     {
         $this->numPaquetes = $numPaquetes;
+
+        return $this;
+    }
+
+    public function getRepartidor(): ?User
+    {
+        return $this->Repartidor;
+    }
+
+    public function setRepartidor(?User $Repartidor): self
+    {
+        $this->Repartidor = $Repartidor;
 
         return $this;
     }
