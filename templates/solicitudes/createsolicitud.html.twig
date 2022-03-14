@@ -1,0 +1,13 @@
+{% extends './base.html.twig' %}
+
+{% block body %}
+
+    {{form_start(solicitudForm)}}
+
+    {{form_widget(solicitudForm)}}
+
+        <button class="btn btn-lg btn-primary" type="submit">Crea solicitud</button>
+        
+    {{form_end(solicitudForm)}}
+
+{% endblock %}

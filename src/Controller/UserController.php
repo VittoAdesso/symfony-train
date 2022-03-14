@@ -30,10 +30,13 @@ class UserController extends AbstractController
         return $this->renderForm('/users/createuser.html.twig', ['userForm' => $form]);         
     }
 
-    #[Route(path: '/login', name: 'app_login')]
+    #[Route(path: '/', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-      
+        if ($this->getUser()) {
+            return $this->redirectToRoute('misSolicitudes'); 
+            }
+            
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();

@@ -1,0 +1,26 @@
+{% extends './base.html.twig' %}
+
+{% block body %}
+
+<h2>Mis solicitudes
+</h2>
+    <div class="row">
+
+    {% for solicitud in solicitudes %}
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem">
+            <div class="card-body">
+                <p class="card-test">Número de paquetes:
+            {{solicitud.numPaquetes}}</p>
+                <p class="card-test">Fecha Inicio:
+                {{solicitud.fechaInicio|date('d-m-Y')}}</p>
+                <p class="card-test">Fecha Fin:
+                {{solicitud.fechaFin|date('d-m-Y')}}</p>
+            </div>
+            </div>
+        </div>
+{% endfor %}
+    </div>
+
+
+{% endblock %}
